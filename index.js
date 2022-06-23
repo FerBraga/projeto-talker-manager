@@ -168,10 +168,24 @@ watchedAtt, async (req, res) => {
       console.log(result);
       const news = { id: result.id, name, age, talk: { watchedAt, rate } };
       console.log(news);
-   write([news]);
+   write([...pessoas, news]);
    return res.status(200).json({ id: result.id, name, age, talk: { watchedAt, rate } });
   } catch (error) {
    return res.status(400).end();
+  }
+});
+
+app.delete('/talker/:id',
+tokenValidation, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pessoas = await read();
+    const deleted = pessoas.find((pessoa) => pessoa.id === Number(id));
+    const novo = pessoas.slice(deleted, 1);
+    write([novo]);
+    return res.status(204).end();
+  } catch (error) {
+    return res.status(400).end();
   }
 });
 
