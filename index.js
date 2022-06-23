@@ -56,13 +56,12 @@ function nameAgeValidation(req, res, next) {
   if (name.length < 3) {
    return res.status(400).json({ message: 'O "name" deve ter pelo menos 3 caracteres' });
   }
-  if (!age) {
-   return res.status(400).json({ message: 'O campo "age" é obrigatório' });
-  }
   if (Number(age) < 18) {
     return res.status(400).json({ message: 'A pessoa palestrante deve ser maior de idade' });
   }
-
+  if (!age) {
+    return res.status(400).json({ message: 'O campo "age" é obrigatório' });
+  }
   next();
 }
 
@@ -91,10 +90,8 @@ next();
 
 function rated(req, res, next) {
   const { talk: { rate } } = req.body;
-
-  console.log(rate);
  
-  if (Number(rate) === 0) {
+  if (Number(rate) <= 0) {
     return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
   } 
   if (Number(rate) > 5) {
@@ -165,9 +162,7 @@ watchedAtt, async (req, res) => {
     const pessoas = await read();
     const result = pessoas.find((pessoa) => 
       pessoa.id === Number(id));
-      console.log(result);
       const news = { id: result.id, name, age, talk: { watchedAt, rate } };
-      console.log(news);
    write([...pessoas, news]);
    return res.status(200).json({ id: result.id, name, age, talk: { watchedAt, rate } });
   } catch (error) {
