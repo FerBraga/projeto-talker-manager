@@ -160,11 +160,11 @@ watchedAtt, async (req, res) => {
     const { name, age, talk: { watchedAt, rate } } = req.body;
     const { id } = req.params;
     const pessoas = await read();
-    const result = pessoas.find((pessoa) => 
+    const resulte = pessoas.find((pessoa) => 
       pessoa.id === Number(id));
-      const news = { id: result.id, name, age, talk: { watchedAt, rate } };
+      const news = { id: resulte.id, name, age, talk: { watchedAt, rate } };
    write([...pessoas, news]);
-   return res.status(200).json({ id: result.id, name, age, talk: { watchedAt, rate } });
+   return res.status(200).json({ id: resulte.id, name, age, talk: { watchedAt, rate } });
   } catch (error) {
    return res.status(400).end();
   }
